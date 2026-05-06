@@ -1,0 +1,87 @@
+﻿# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.development
+.env.test
+
+# Build outputs
+frontend/.next/
+frontend/out/
+backend/dist/
+build/
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Dependency directories
+jspm_packages/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache
+.npm
+
+# ESLint cache
+.eslintcache
+
+# REPL history
+.node_repl_history
+
+# Package output
+*.tgz
+
+# Yarn Integrity
+.yarn-integrity
+
+# dotenv
+.env
+
+# Parcel cache
+.cache
+
+# Next.js
+.next
+
+# Vercel
+.vercel
+
+# Prisma
+backend/prisma/*.db
+backend/prisma/*.db-journal
+
+# SQLite
+*.sqlite
+*.sqlite3
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Temp
+tmp/
+temp/

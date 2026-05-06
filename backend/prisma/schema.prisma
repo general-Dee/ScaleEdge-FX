@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  phone         String    @unique
+  email         String?   @unique
+  password      String
+  fullName      String?
+  role          UserRole  @default(CUSTOMER)
+  bvnVerified   Boolean   @default(false)
+  ninVerified   Boolean   @default(false)
+  bvnNumber     String?
+  ninNumber     String?
+  tier          Tier      @default(TIER1)
+  dailyLimitUsd Int       @default(200)
+  walletBalance Int       @default(0) // in kobo
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  orders        Order[]
+  transactions  Transaction[]
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+  SUPERADMIN
+}
+
+enum Tier {
+  TIER1
+  TIER2
+  TIER3
+}
+
+model Order {
+  id            String    @id @default(uuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  type          OrderType
+  amountUsd     Int
+  rateNgn       Int
+  status        OrderStatus
+  matchedBy     String?
+  matchedAt     DateTime?
+  createdAt     DateTime  @default(now())
+}
+
+enum OrderType {
+  BUY
+  SELL
+}
+
+enum OrderStatus {
+  PENDING
+  MATCHED
+  COMPLETED
+  CANCELLED
+}
+
+model Transaction {
+  id            String    @id @default(uuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  type          TxType
+  amountNgn     Int
+  reference     String    @unique
+  status        TxStatus
+  paystackRef   String?
+  createdAt     DateTime  @default(now())
+}
+
+enum TxType {
+  DEPOSIT
+  WITHDRAWAL
+  ESCROW_HOLD
+  ESCROW_RELEASE
+}
+
+enum TxStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
