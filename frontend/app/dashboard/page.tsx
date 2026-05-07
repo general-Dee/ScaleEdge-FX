@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -36,7 +36,7 @@ export default function Dashboard() {
 
   const fetchRates = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rates/live`);
+      const res = await fetch(`"https://scaleedge-fx-api.onrender.com/api"/rates/live`);
       if (res.ok) {
         const data = await res.json();
         setRates(data);
@@ -56,7 +56,7 @@ export default function Dashboard() {
     if (!token) return;
     setLoadingOrders(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/my`, {
+      const res = await fetch(`"https://scaleedge-fx-api.onrender.com/api"/orders/my`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {
@@ -82,7 +82,7 @@ export default function Dashboard() {
       return;
     }
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
+      const res = await fetch(`"https://scaleedge-fx-api.onrender.com/api"/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -128,8 +128,8 @@ export default function Dashboard() {
         <h2 className="text-xl font-semibold">Live Rates (USD/NGN)</h2>
         {loadingRates ? <p>Loading...</p> : (
           <>
-            <p>Buy: ₦{rates.buy}</p>
-            <p>Sell: ₦{rates.sell}</p>
+            <p>Buy: ?{rates.buy}</p>
+            <p>Sell: ?{rates.sell}</p>
             <p className="text-xs text-gray-500">Last updated: {new Date().toLocaleTimeString()}</p>
           </>
         )}
@@ -156,7 +156,7 @@ export default function Dashboard() {
           />
           <input
             type="number"
-            placeholder="Rate (₦ per USD)"
+            placeholder="Rate (? per USD)"
             value={rateNgn}
             onChange={e => setRateNgn(e.target.value)}
             className="w-full p-2 border rounded"
@@ -184,7 +184,7 @@ export default function Dashboard() {
                 <tr>
                   <th className="p-2 border">Type</th>
                   <th className="p-2 border">Amount (USD)</th>
-                  <th className="p-2 border">Rate (₦)</th>
+                  <th className="p-2 border">Rate (?)</th>
                   <th className="p-2 border">Status</th>
                   <th className="p-2 border">Date</th>
                 </tr>
