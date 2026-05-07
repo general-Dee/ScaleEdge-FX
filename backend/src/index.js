@@ -4,7 +4,9 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 const app = express();
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+
+const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:3000';
+app.use(cors({ origin: allowedOrigin, credentials: true }));
 app.use(express.json());
 
 // Health check
@@ -17,6 +19,9 @@ app.use('/api/auth', require('./routes/auth'));
 
 // Rates routes
 app.use('/api/rates', require('./routes/rates'));
+
+// Orders routes (new)
+app.use('/api/orders', require('./routes/orders'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
