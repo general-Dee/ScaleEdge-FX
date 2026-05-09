@@ -10,7 +10,7 @@ export default function Register() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch(`${"https://scaleedge-fx-api.onrender.com/api"}/auth/register`, {
+    const res = await fetch('https://scaleedge-fx-api.onrender.com/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ phone, password, fullName })
@@ -18,9 +18,11 @@ export default function Register() {
     if (res.ok) {
       const data = await res.json();
       localStorage.setItem('token', data.token);
+      localStorage.setItem('userRole', data.user.role);
       router.push('/dashboard');
     } else {
-      alert('Registration failed');
+      const err = await res.json();
+      alert('Registration failed: ' + (err.error || 'Unknown error'));
     }
   };
 
