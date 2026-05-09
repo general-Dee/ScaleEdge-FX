@@ -35,7 +35,7 @@ export default function AdminDashboard() {
 
   const fetchOrders = async (token: string) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/all`, {
+      const res = await fetch(`${"https://scaleedge-fx-api.onrender.com/api"}/orders/all`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {
@@ -55,7 +55,7 @@ export default function AdminDashboard() {
     const token = localStorage.getItem('token');
     if (!token) return;
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${orderId}/match`, {
+      const res = await fetch(`${"https://scaleedge-fx-api.onrender.com/api"}/orders/${orderId}/match`, {
         method: 'PATCH',
         headers: { Authorization: `Bearer ${token}` }
       });
