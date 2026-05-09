@@ -5,7 +5,8 @@ const dotenv = require('dotenv');
 dotenv.config();
 const app = express();
 
-const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:3000';
+// Hardcode the allowed origin – replace with your actual frontend URL if different
+const allowedOrigin = 'https://scaledgefx.vercel.app';
 app.use(cors({ origin: allowedOrigin, credentials: true }));
 app.use(express.json());
 
@@ -20,7 +21,7 @@ app.use('/api/auth', require('./routes/auth'));
 // Rates routes
 app.use('/api/rates', require('./routes/rates'));
 
-// Orders routes (new)
+// Orders routes
 app.use('/api/orders', require('./routes/orders'));
 
 const PORT = process.env.PORT || 5000;
