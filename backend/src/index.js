@@ -3,10 +3,17 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 
 dotenv.config();
+
+const PLACEHOLDER_JWT_SECRET = 'change_this_to_random_string';
+if (!process.env.JWT_SECRET || process.env.JWT_SECRET === PLACEHOLDER_JWT_SECRET) {
+  console.error('JWT_SECRET is missing or still set to the placeholder value. Set a strong random secret before starting the server.');
+  process.exit(1);
+}
+
 const app = express();
 
-// Hardcode the allowed origin – replace with your actual frontend URL if different
-const allowedOrigin = 'https://scaledgefx.vercel.app';
+// Falls back to the current production frontend URL if FRONTEND_URL isn't set
+const allowedOrigin = process.env.FRONTEND_URL || 'https://scaledgefx.vercel.app';
 app.use(cors({ origin: allowedOrigin, credentials: true }));
 app.use(express.json());
 

@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { API_URL } from '../lib/api';
 
 export default function Home() {
   const [status, setStatus] = useState('Checking...');
 
   useEffect(() => {
-    fetch('https://scaleedge-fx-api.onrender.com/api/health')
+    fetch(`${API_URL}/health`)
       .then(res => res.json())
       .then(data => setStatus(data.status))
       .catch(() => setStatus('Backend unreachable'));

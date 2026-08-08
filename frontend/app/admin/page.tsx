@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { authFetch } from '../../lib/api';
 
 interface Order {
   id: string;
@@ -30,14 +31,12 @@ export default function AdminDashboard() {
       return;
     }
     setRole(userRole);
-    fetchOrders(token);
+    fetchOrders();
   }, []);
 
-  const fetchOrders = async (token: string) => {
+  const fetchOrders = async () => {
     try {
-      const res = await fetch(`${"https://scaleedge-fx-api.onrender.com/api"}/orders/all`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await authFetch('/orders/all');
       if (res.ok) {
         const data = await res.json();
         setOrders(data);
@@ -52,17 +51,12 @@ export default function AdminDashboard() {
   };
 
   const matchOrder = async (orderId: string) => {
-    const token = localStorage.getItem('token');
-    if (!token) return;
     try {
-      const res = await fetch(`${"https://scaleedge-fx-api.onrender.com/api"}/orders/${orderId}/match`, {
-        method: 'PATCH',
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await authFetch(`/orders/${orderId}/match`, { method: 'PATCH' });
       if (res.ok) {
         alert('Order matched');
         // refresh orders
-        fetchOrders(token);
+        fetchOrders();
       } else {
         alert('Failed to match order');
       }

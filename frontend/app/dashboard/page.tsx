@@ -1,6 +1,7 @@
 ﻿'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { API_URL, authFetch } from '../../lib/api';
 
 interface Order {
   id: string;
@@ -34,7 +35,7 @@ export default function Dashboard() {
 
   const fetchRates = async () => {
     try {
-      const res = await fetch('https://scaleedge-fx-api.onrender.com/api/rates/live');
+      const res = await fetch(`${API_URL}/rates/live`);
       if (res.ok) {
         const data = await res.json();
         setRates(data);
@@ -52,9 +53,7 @@ export default function Dashboard() {
     if (!token) return;
     setLoadingOrders(true);
     try {
-      const res = await fetch('https://scaleedge-fx-api.onrender.com/api/orders/my', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await authFetch('/orders/my');
       if (res.ok) {
         const data = await res.json();
         setMyOrders(data);
@@ -77,11 +76,10 @@ export default function Dashboard() {
       return;
     }
     try {
-      const res = await fetch('https://scaleedge-fx-api.onrender.com/api/orders', {
+      const res = await authFetch('/orders', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           type: orderType,
