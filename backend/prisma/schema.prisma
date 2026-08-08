@@ -25,6 +25,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   orders        Order[]
   transactions  Transaction[]
+  dedicatedAccount DedicatedAccount?
 }
 
 enum UserRole {
@@ -87,4 +88,17 @@ enum TxStatus {
   PENDING
   SUCCESS
   FAILED
+}
+
+model DedicatedAccount {
+  id                   String   @id @default(uuid())
+  userId               String   @unique
+  user                 User     @relation(fields: [userId], references: [id])
+  paystackCustomerCode String
+  accountNumber        String   @unique
+  accountName          String
+  bankName             String
+  bankId               Int?
+  active               Boolean  @default(true)
+  createdAt            DateTime @default(now())
 }

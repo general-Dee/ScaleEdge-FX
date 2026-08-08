@@ -15,7 +15,9 @@ const app = express();
 // Falls back to the current production frontend URL if FRONTEND_URL isn't set
 const allowedOrigin = process.env.FRONTEND_URL || 'https://scaledgefx.vercel.app';
 app.use(cors({ origin: allowedOrigin, credentials: true }));
-app.use(express.json());
+app.use(express.json({
+  verify: (req, res, buf) => { req.rawBody = buf; }
+}));
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -30,6 +32,12 @@ app.use('/api/rates', require('./routes/rates'));
 
 // Orders routes
 app.use('/api/orders', require('./routes/orders'));
+
+// Wallet routes
+app.use('/api/wallet', require('./routes/wallet'));
+
+// Webhook routes
+app.use('/api/webhooks', require('./routes/webhooks'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));

@@ -113,7 +113,10 @@ export default function Dashboard() {
 
   return (
     <div className="p-8 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <a href="/wallet" className="text-blue-600 hover:underline">My Wallet</a>
+      </div>
 
       <div className="mt-4 p-4 bg-gray-100 rounded">
         <h2 className="text-xl font-semibold">Live Rates (USD/NGN)</h2>
